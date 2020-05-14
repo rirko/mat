@@ -1,0 +1,72 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+typedef struct mat{
+    int H;
+    int L;
+    float data[10][10]={0};
+}mat;
+mat OUT;
+
+void initial_mat(mat &mat,int H,int L){
+    mat.H=H;
+    mat.L=L;
+}
+
+void data_in(mat &mat,int i,int j,float data){
+    mat.data[i][j]=data;
+}
+
+float MUL(mat A,mat B,int I,int J){
+    float data=0;
+    for(int i=0;i<A.L;i++){
+        data+=A.data[I][i]*B.data[i][J];
+    }
+    return data;
+}
+void multp(mat A,mat B,mat &OUT){
+    OUT.H=A.H;
+    OUT.L=B.L;
+    for(int i=0;i<A.H;i++)
+        for(int j=0;j<B.L;j++)
+            data_in(OUT,i,j,MUL(A,B,i,j));
+
+}
+void getdata(mat &mat){
+    printf("矩阵行数？");
+    scanf("%d",&mat.H);
+    printf("矩阵列数？");
+    scanf("%d",&mat.L);
+    printf("用空格隔开，用回车换行。\n");
+    for(int i=0;i<mat.H;i++)
+        for(int j=0;j<mat.L;j++){
+            scanf("%f",&mat.data[i][j]);
+        }
+
+}
+void putdata(mat &mat){
+    printf(" 答案： \n");
+    for(int i=0;i<mat.H;i++){
+        for(int j=0;j<mat.L;j++)
+            printf("%0.2f  ",mat.data[i][j]);
+        printf("\n");
+    }
+
+}
+
+int main(){
+    mat A,B;
+    printf("第一个矩阵\n");
+    getdata(A);
+    printf("第二个矩阵\n");
+    getdata(B);
+    if(A.L!=B.H){
+        printf("矩阵不匹配");
+        return 0;
+    }
+    multp(A,B,OUT);
+    putdata(OUT);
+
+
+    return 0;
+}
